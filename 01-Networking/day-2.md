@@ -1,81 +1,79 @@
 # Networking Basics
 
-### 11. Given the IP address `172.16.0.45/16`, identify the network address, broadcast address, and the range of host IPs.
+## 1. Identifying Network and Broadcast Addresses
 
+### Given IP: `172.16.0.45/16`
+- **Subnet Mask**: `/16` (255.255.0.0)
 - **Network Address**: `172.16.0.0`
 - **Broadcast Address**: `172.16.255.255`
 - **Range of Host IPs**: `172.16.0.1` to `172.16.255.254`
 
-### 12. For the IP address `192.168.5.100/24`, identify which subnet this address belongs to and whether it can communicate directly with the IP address `192.168.6.200/24` without a router.
+## 2. Subnet Communication
 
-- **Subnet**: `192.168.5.0/24`
+### Given IP: `192.168.5.100/24`
+- **Subnet Mask**: `/24` (255.255.255.0)
+- **Network Address**: `192.168.5.0`
 - **Broadcast Address**: `192.168.5.255`
-- **Range of Host IPs**: `192.168.5.1` to `192.168.5.254`
-- **Communication with `192.168.6.200/24`**: No, because `192.168.5.0/24` and `192.168.6.0/24` are different subnets. A router is required for communication between them.
+- **Host IP Range**: `192.168.5.1` to `192.168.5.254`
+- **Can communicate with `192.168.6.200/24`?** No, because they belong to different subnets and require a router for communication.
 
-### 13. Configure a device with a static IP address of `10.0.0.10` on a network with the subnet mask `255.255.255.0`. What will be the network address and broadcast address for this configuration?
+## 3. Static IP Configuration
 
+### Given IP: `10.0.0.10` with Subnet Mask `255.255.255.0`
 - **Network Address**: `10.0.0.0`
 - **Broadcast Address**: `10.0.0.255`
 - **Range of Host IPs**: `10.0.0.1` to `10.0.0.254`
 
-### 14. Using a dynamic IP configuration, explain how a device obtains an IP address from the DHCP server. What information does the device receive from the DHCP server?
+## 4. DHCP Process (DORA)
+1. **Discover**: Client sends a request to find a DHCP server.
+2. **Offer**: DHCP server responds with an available IP.
+3. **Request**: Client requests the offered IP.
+4. **Acknowledge**: DHCP server confirms the assignment.
 
-**DHCP Process (DORA):**
-1. **Discover**: The client sends a DHCP Discover packet to find a DHCP server.
-2. **Offer**: The DHCP server responds with an available IP address.
-3. **Request**: The client requests to lease the offered IP address.
-4. **Acknowledge**: The server confirms and assigns the IP address.
+**Device receives:**
+- IP Address
+- Subnet Mask
+- Default Gateway
+- DNS Server(s)
+- Lease Duration
 
-The device receives:
-- IP address
-- Subnet mask
-- Default gateway
-- DNS server(s)
-- Lease duration
+## 5. DNS Resolution for `www.example.com`
+1. **Local Cache Check**: Device checks its cache for the IP.
+2. **Recursive Resolver Query**: If not found, it queries a DNS resolver.
+3. **Root Server Query**: The resolver contacts a root DNS server.
+4. **TLD Server Query**: Root server directs it to the `.com` TLD server.
+5. **Authoritative Server Query**: TLD server directs it to `example.com`'s DNS.
+6. **Response**: The authoritative DNS server provides the IP.
+7. **Connection**: Device connects using the retrieved IP.
 
-### 15. How does DNS resolve the domain name `www.example.com` into an IP address? Describe the process step by step.
+## 6. What Happens If DNS is Unreachable?
+- Device cannot resolve domain names to IPs.
+- If cached, the website may still load.
+- If no cache, a **DNS error** appears.
+- A secondary DNS server may be used if configured.
 
-1. **Local Cache Check**: The computer checks its local cache for `www.example.com`.
-2. **Query to Recursive Resolver**: If not found, it queries a recursive DNS server.
-3. **Root Server Query**: The recursive server asks a root DNS server.
-4. **TLD Server Query**: The root server directs it to the TLD (Top-Level Domain) server.
-5. **Authoritative Server Query**: The TLD server directs it to the authoritative DNS server for `example.com`.
-6. **Response**: The authoritative server responds with the IP address.
-7. **Connection**: The client uses the retrieved IP address to connect to the website.
+## 7. Subnetting Plan for 6 Subnets (30 Hosts Each)
 
-### 16. Explain what would happen if the DNS server is unreachable when trying to access a website.
-
-- The device will be unable to resolve domain names to IP addresses.
-- If the IP address is cached, the site may still load.
-- If no cache exists, the browser will display a **DNS error**.
-- A backup or secondary DNS server may be queried if configured.
-- 
-### 17. Design a subnetting plan for a company that requires 6 subnets with at least 30 hosts each. What will be the subnet mask and range of each subnet?
-
-- **Minimum host requirement**: 30
-- **Formula**: `2^n - 2 >= 30` → `n = 5` (32 addresses per subnet)
-- **Subnet mask**: `255.255.255.224` (`/27`)
-- **Subnets and Ranges**:
+### Subnet Mask: `/27` (255.255.255.224)`
+Each subnet supports **30 usable hosts**.
 
 | Subnet | Network Address | Host Range | Broadcast Address |
 |--------|----------------|------------|------------------|
-| 1      | 192.168.1.0/27 | 192.168.1.1 - 192.168.1.30 | 192.168.1.31 |
-| 2      | 192.168.1.32/27 | 192.168.1.33 - 192.168.1.62 | 192.168.1.63 |
-| 3      | 192.168.1.64/27 | 192.168.1.65 - 192.168.1.94 | 192.168.1.95 |
-| 4      | 192.168.1.96/27 | 192.168.1.97 - 192.168.1.126 | 192.168.1.127 |
+| 1      | 192.168.1.0/27   | 192.168.1.1 - 192.168.1.30  | 192.168.1.31 |
+| 2      | 192.168.1.32/27  | 192.168.1.33 - 192.168.1.62 | 192.168.1.63 |
+| 3      | 192.168.1.64/27  | 192.168.1.65 - 192.168.1.94 | 192.168.1.95 |
+| 4      | 192.168.1.96/27  | 192.168.1.97 - 192.168.1.126 | 192.168.1.127 |
 | 5      | 192.168.1.128/27 | 192.168.1.129 - 192.168.1.158 | 192.168.1.159 |
 | 6      | 192.168.1.160/27 | 192.168.1.161 - 192.168.1.190 | 192.168.1.191 |
 
-### 18. You have been given the IP address `192.168.50.0/25`. Further divide this into two subnets. What are the new subnet masks and IP address ranges?
+## 8. Splitting `192.168.50.0/25` into Two Smaller Subnets
 
-- **Original Subnet**: `192.168.50.0/25`
-- **New Subnet Mask**: `255.255.255.192` (`/26`)
-- **Divided Subnets**:
+### Original Subnet: `/25` (255.255.255.128)
+Splitting into `/26` (255.255.255.192) creates **two subnets with 62 usable hosts each**.
 
 | Subnet | Network Address | Host Range | Broadcast Address |
 |--------|----------------|------------|------------------|
-| 1      | 192.168.50.0/26 | 192.168.50.1 - 192.168.50.62 | 192.168.50.63 |
-| 2      | 192.168.50.64/26 | 192.168.50.65 - 192.168.50.126 | 192.168.50.127 |
+| 1      | 192.168.50.0/26   | 192.168.50.1 - 192.168.50.62  | 192.168.50.63 |
+| 2      | 192.168.50.64/26  | 192.168.50.65 - 192.168.50.126 | 192.168.50.127 |
 
 ---
