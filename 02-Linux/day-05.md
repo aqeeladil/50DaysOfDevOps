@@ -130,3 +130,65 @@ When using pipes (`|`) to connect multiple commands, if one of the commands in t
     systemctl enable myjob.timer
     ```
 
+## 26. Checking Network Connectivity
+- To test internet connectivity:
+  ```bash
+  ping -c 4 google.com
+  ```
+- To check if a specific port is open:
+  ```bash
+  nc -zv example.com 80
+  ```
+- To display network interfaces:
+  ```bash
+  ip a
+  ```
+
+## 27. Finding Large Files
+- To list the largest files in a directory:
+  ```bash
+  find /path -type f -exec du -h {} + | sort -rh | head -10
+  ```
+
+## 28. Monitoring CPU and Memory Usage
+- To check real-time CPU and memory usage:
+  ```bash
+  top
+  ```
+- For a more user-friendly interface:
+  ```bash
+  htop
+  ```
+- To check memory usage:
+  ```bash
+  free -h
+  ```
+
+## 29. Checking Disk Usage
+- To view disk usage of directories:
+  ```bash
+  du -sh *
+  ```
+- To check free disk space:
+  ```bash
+  df -h
+  ```
+
+## 30. Creating and Extracting Archives
+- To create a tar archive:
+  ```bash
+  tar -cvf archive.tar myfolder/
+  ```
+- To extract a tar archive:
+  ```bash
+  tar -xvf archive.tar
+  ```
+- To create a compressed archive:
+  ```bash
+  tar -czvf archive.tar.gz myfolder/
+  ```
+- To extract a compressed archive:
+  ```bash
+  tar -xzvf archive.tar.gz
+  ```
+
