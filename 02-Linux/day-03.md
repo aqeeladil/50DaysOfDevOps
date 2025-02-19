@@ -64,4 +64,3 @@ The `/proc` directory is a **virtual filesystem** that dynamically represents ke
 
 ---
 
-Would you like a deeper dive into any of these topics?
