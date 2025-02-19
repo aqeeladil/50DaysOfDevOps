@@ -201,6 +201,3 @@ sudo useradd -m -s /bin/bash shelluser
 - `-s /bin/bash`: Sets Bash as the default shell.
 
 ---
-
-Would you like any additional details on these commands? 🚀
-
