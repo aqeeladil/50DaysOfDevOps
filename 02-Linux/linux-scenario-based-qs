@@ -1,0 +1,202 @@
+# Linux Fundamentals - Scenario-Based Questions & Answers
+
+## **Basic Commands**
+
+### 1. Find the current directory
+**Command:**
+```sh
+pwd
+```
+**Explanation:** Prints the absolute path of the current working directory.
+
+### 2. List all files, including hidden ones
+**Command:**
+```sh
+ls -la
+```
+**Explanation:** The `-l` flag shows detailed information, and `-a` lists hidden files (files starting with `.`).
+
+### 3. Recover a deleted file
+**Solution:** If `rm` was used, it may not be recoverable unless a backup exists. Try:
+- **Check Trash (GUI-based distros)**
+- **Use `extundelete` (if using ext3/ext4 filesystems)**
+```sh
+sudo extundelete /dev/sdX --restore-file /path/to/important.txt
+```
+- **Use `testdisk` utility**
+
+### 4. Create an empty file
+**Command:**
+```sh
+touch newfile.txt
+```
+**Explanation:** The `touch` command creates an empty file or updates the timestamp if it already exists.
+
+### 5. Move a file
+**Command:**
+```sh
+mv /home/user/Documents/report.pdf /home/user/Desktop/
+```
+**Explanation:** Moves `report.pdf` to the Desktop directory.
+
+## **File Permissions & Ownership**
+
+### 6. Fix "Permission Denied" error for a script
+**Solution:**
+```sh
+ls -l script.sh
+chmod +x script.sh
+```
+If still denied, run with `sudo` if necessary.
+
+### 7. Grant only the owner execute permission
+**Command:**
+```sh
+chmod 700 script.sh
+```
+
+### 8. Change file ownership
+**Command:**
+```sh
+sudo chown user1 project.txt
+```
+
+### 9. Set directory permissions
+**Command:**
+```sh
+chmod 755 shared
+```
+
+## **Process Management**
+
+### 10. Find and terminate a process
+**Command:**
+```sh
+ps aux | grep processname
+kill PID
+kill -9 PID # Force kill
+```
+
+### 11. Check running processes
+**Command:**
+```sh
+ps aux
+```
+
+### 12. Reduce process priority
+**Command:**
+```sh
+renice +10 PID
+```
+
+### 13. Run command in the background & keep it running
+**Command:**
+```sh
+nohup command & disown
+```
+
+## **Disk & Storage Management**
+
+### 14. Check available disk space
+**Command:**
+```sh
+df -h
+```
+
+### 15. Find directory size
+**Command:**
+```sh
+du -sh /path/to/directory
+```
+
+### 16. Clear `/tmp` directory safely
+**Command:**
+```sh
+sudo rm -rf /tmp/*
+```
+
+### 17. Manually mount a USB drive
+**Command:**
+```sh
+sudo mount /dev/sdX1 /mnt/usb
+```
+
+## **Networking**
+
+### 18. Find IP address
+**Command:**
+```sh
+ip a
+```
+
+### 19. Check if a remote server is reachable
+**Command:**
+```sh
+ping -c 4 example.com
+```
+
+### 20. Test DNS resolution
+**Command:**
+```sh
+nslookup example.com
+```
+
+### 21. Find open ports
+**Command:**
+```sh
+netstat -tulnp
+```
+
+## **User Management**
+
+### 22. Create a new user
+**Command:**
+```sh
+sudo useradd -m john
+```
+
+### 23. Change user password
+**Command:**
+```sh
+sudo passwd username
+```
+
+### 24. Check logged-in users
+**Command:**
+```sh
+who
+```
+
+### 25. Add user to sudo group
+**Command:**
+```sh
+sudo usermod -aG sudo user1
+```
+
+## **System Logs & Monitoring**
+
+### 26. Check logs for a failing service
+**Command:**
+```sh
+journalctl -xe
+```
+
+### 27. View real-time logs for an application
+**Command:**
+```sh
+tail -f /var/log/syslog
+```
+
+### 28. Check system uptime
+**Command:**
+```sh
+uptime
+```
+
+### 29. Monitor system performance in real time
+**Command:**
+```sh
+htop
+```
+
+---
