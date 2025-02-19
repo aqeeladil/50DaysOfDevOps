@@ -1,47 +1,178 @@
-## Advance commands
+# Advanced Linux Commands
 
-1. How would you analyze the resource usage of all running processes in a user-friendly 
-manner to identify which process is consuming the most CPU or memory?
+## 1. Analyze Resource Usage (CPU & Memory)
+To find processes consuming the most CPU or memory:
+```bash
+top
+```
+or a more user-friendly version:
+```bash
+htop
+```
+To sort by memory usage:
+```bash
+ps aux --sort=-%mem | head -10
+```
+To sort by CPU usage:
+```bash
+ps aux --sort=-%cpu | head -10
+```
 
-2. What steps would you take to monitor system performance over time, including memory 
-usage and CPU load, and how would you set up data logging for further analysis?
+## 2. Monitor System Performance & Set Up Data Logging
+To monitor CPU and memory usage over time:
+```bash
+vmstat 1 10
+```
+To log performance data:
+```bash
+sar -u 5 10 >> cpu_usage.log
+```
+For detailed monitoring over time, install and use:
+```bash
+nmon
+```
+or set up `sysstat` and use:
+```bash
+iostat -x 5 >> disk_usage.log
+```
 
-3. How would you check the status of network connections and identify which services are 
-currently listening on your system?
+## 3. Check Network Connections & Listening Services
+To list open network connections:
+```bash
+netstat -tulnp
+```
+or using `ss` (faster alternative):
+```bash
+ss -tulnp
+```
+To see only listening services:
+```bash
+lsof -i -P -n | grep LISTEN
+```
 
-4. What method would you use to visualize real-time network bandwidth usage for specific 
-network interfaces and determine which processes are utilizing the most bandwidth?
+## 4. Visualize Real-time Network Bandwidth Usage
+To monitor real-time bandwidth usage:
+```bash
+nload
+```
+or per process usage:
+```bash
+iftop -i eth0
+```
+For network traffic by process:
+```bash
+nethogs
+```
 
-5. How can you monitor incoming and outgoing network traffic over time to identify trends or 
-unusual spikes?
+## 5. Monitor Network Traffic Trends Over Time
+To capture network traffic:
+```bash
+tcpdump -i eth0
+```
+To analyze bandwidth usage over time:
+```bash
+vnstat -i eth0
+```
 
-6. How would you change the ownership of a directory and all of its contents to a different 
-user, ensuring that the new user has the necessary permissions to access and modify the 
-files?
+## 6. Change Ownership of a Directory and Its Contents
+To change the ownership:
+```bash
+chown -R newuser:newgroup /path/to/directory
+```
 
-7. What steps would you take to modify the permissions of a script file to ensure that only the 
-owner can execute it while preventing others from accessing it?
+## 7. Modify Script File Permissions (Owner Execute Only)
+To allow only the owner to execute:
+```bash
+chmod 700 script.sh
+```
 
-8. If you need to create an isolated environment for an application, what process would you 
-follow to change the root directory for that application?
+## 8. Create an Isolated Environment (chroot)
+To change the root directory:
+```bash
+mkdir -p /newroot/{bin,lib,lib64}
+cp /bin/bash /newroot/bin/
+chroot /newroot /bin/bash
+```
+For full environments, consider:
+```bash
+systemd-nspawn -D /newroot
+```
 
-9. How would you schedule a task to run automatically at a specified time each day, ensuring 
-that it logs its output to a specific file for review later?
+## 9. Schedule a Task to Run Daily & Log Output
+To run a script daily:
+```bash
+crontab -e
+```
+Add:
+```
+0 2 * * * /path/to/script.sh >> /var/log/script.log 2>&1
+```
+For `systemd` timers:
+```bash
+systemctl enable myscript.timer
+```
 
-10. What would be the process to run a long-lasting task in the background, allowing you to log 
-out of the session while keeping it running?
+## 10. Run a Long Task in Background & Logout Safely
+Using `nohup`:
+```bash
+nohup long-running-command & disown
+```
+Using `screen`:
+```bash
+screen -S mysession
+```
+Run command, then press `Ctrl + A, D` to detach.
 
-11. In a situation where you want to pass the output of one command to another for further 
-processing, how would you do that efficiently?
+## 11. Pass Command Output to Another Command
+Using pipes (`|`):
+```bash
+ls -l | grep ".txt"
+```
+Using `xargs`:
+```bash
+find . -name "*.log" | xargs rm
+```
 
-12. How would you test the connectivity to a remote host and measure the round-trip time for 
-packets sent to that host?
+## 12. Test Connectivity to a Remote Host & Measure Latency
+Using `ping`:
+```bash
+ping -c 5 example.com
+```
+For detailed output:
+```bash
+mtr example.com
+```
 
-13. What method would you use to query the DNS records for a specific domain to ensure that 
-it is correctly configured?
+## 13. Query DNS Records for a Domain
+Using `nslookup`:
+```bash
+nslookup example.com
+```
+Using `dig`:
+```bash
+dig example.com
+```
 
-14. How can you retrieve detailed DNS information about a domain, including all associated 
-record types, to troubleshoot potential issues?
+## 14. Retrieve Detailed DNS Information
+To get all DNS records:
+```bash
+dig example.com ANY
+```
+For detailed troubleshooting:
+```bash
+whois example.com
+```
 
-15. If you suspect filesystem corruption, what process would you follow to check and repair the 
-filesystem on a specific disk?
+## 15. Check & Repair Filesystem Corruption
+To check a disk:
+```bash
+fsck -n /dev/sdX
+```
+To repair:
+```bash
+fsck -y /dev/sdX
+```
+If it's the root filesystem:
+```bash
+touch /forcefsck
+reboot
