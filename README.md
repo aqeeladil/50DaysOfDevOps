@@ -1,1 +1,1 @@
-# 50-days-of-NOC
+# 50-days-of-DevOps
